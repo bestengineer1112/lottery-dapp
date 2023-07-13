@@ -4,7 +4,7 @@ import orderBy from 'lodash/orderBy'
 
 import { PriceChartEntry } from 'state/info/types'
 import { getBlocksFromTimestamps } from 'utils/getBlocksFromTimestamps'
-import { multiQuery } from 'views/Info/utils/infoQueryHelpers'
+// import { multiQuery } from 'views/Info/utils/infoQueryHelpers'
 import { MultiChainName, multiChainQueryEndPoint, multiChainQueryMainToken, checkIsStableSwap } from '../../constant'
 
 const getPriceSubqueries = (chainName: MultiChainName, tokenAddress: string, blocks: any) =>
@@ -62,21 +62,21 @@ const fetchTokenPriceData = async (
       }
     }
 
-    const prices: any | undefined = await multiQuery(
-      priceQueryConstructor,
-      getPriceSubqueries(chainName, address, blocks),
-      multiChainQueryEndPoint[chainName],
-      200,
-    )
+    // const prices: any | undefined = await multiQuery(
+    //   priceQueryConstructor,
+    //   getPriceSubqueries(chainName, address, blocks),
+    //   multiChainQueryEndPoint[chainName],
+    //   200,
+    // )
 
-    console.warn('fetchTokenPriceData', { chainName, prices })
+    // console.warn('fetchTokenPriceData', { chainName, prices })
 
-    if (!prices) {
-      console.error('Price data failed to load')
-      return {
-        error: false,
-      }
-    }
+    // if (!prices) {
+    //   console.error('Price data failed to load')
+    //   return {
+    //     error: false,
+    //   }
+    // }
 
     // format token BNB price results
     const tokenPrices: {
@@ -88,35 +88,35 @@ const fetchTokenPriceData = async (
     const mainToken = multiChainQueryMainToken[chainName]
 
     // Get Token prices in BNB
-    Object.keys(prices).forEach((priceKey) => {
-      const timestamp = priceKey.split('t')[1]
-      // if its BNB price e.g. `b123` split('t')[1] will be undefined and skip BNB price entry
-      if (timestamp) {
-        tokenPrices.push({
-          timestamp,
-          derivedBNB: prices[priceKey]?.[`derived${mainToken}`]
-            ? parseFloat(prices[priceKey][`derived${mainToken}`])
-            : 0,
-          priceUSD: 0,
-        })
-      }
-    })
+    // Object.keys(prices).forEach((priceKey) => {
+    //   const timestamp = priceKey.split('t')[1]
+    //   // if its BNB price e.g. `b123` split('t')[1] will be undefined and skip BNB price entry
+    //   if (timestamp) {
+    //     tokenPrices.push({
+    //       timestamp,
+    //       derivedBNB: prices[priceKey]?.[`derived${mainToken}`]
+    //         ? parseFloat(prices[priceKey][`derived${mainToken}`])
+    //         : 0,
+    //       priceUSD: 0,
+    //     })
+    //   }
+    // })
 
     console.warn('pricesPart1', tokenPrices)
 
     // Go through BNB USD prices and calculate Token price based on it
-    Object.keys(prices).forEach((priceKey) => {
-      const timestamp = priceKey.split('b')[1]
-      // if its Token price e.g. `t123` split('b')[1] will be undefined and skip Token price entry
-      if (timestamp) {
-        const tokenPriceIndex = tokenPrices.findIndex((tokenPrice) => tokenPrice.timestamp === timestamp)
-        if (tokenPriceIndex >= 0) {
-          const { derivedBNB } = tokenPrices[tokenPriceIndex]
-          tokenPrices[tokenPriceIndex].priceUSD =
-            parseFloat(prices[priceKey]?.[`${mainToken.toLowerCase()}Price`] ?? 0) * derivedBNB
-        }
-      }
-    })
+    // Object.keys(prices).forEach((priceKey) => {
+    //   const timestamp = priceKey.split('b')[1]
+    //   // if its Token price e.g. `t123` split('b')[1] will be undefined and skip Token price entry
+    //   if (timestamp) {
+    //     const tokenPriceIndex = tokenPrices.findIndex((tokenPrice) => tokenPrice.timestamp === timestamp)
+    //     if (tokenPriceIndex >= 0) {
+    //       const { derivedBNB } = tokenPrices[tokenPriceIndex]
+    //       tokenPrices[tokenPriceIndex].priceUSD =
+    //         parseFloat(prices[priceKey]?.[`${mainToken.toLowerCase()}Price`] ?? 0) * derivedBNB
+    //     }
+    //   }
+    // })
 
     // graphql-request does not guarantee same ordering of batched requests subqueries, hence sorting by timestamp from oldest to newest
     const sortedTokenPrices = orderBy(tokenPrices, (tokenPrice) => parseInt(tokenPrice.timestamp, 10))

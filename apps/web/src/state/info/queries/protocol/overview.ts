@@ -4,8 +4,8 @@ import { useEffect, useState } from 'react'
 import { Block, ProtocolData } from 'state/info/types'
 import { getChangeForPeriod } from 'utils/getChangeForPeriod'
 import { getDeltaTimestamps } from 'utils/getDeltaTimestamps'
-import { useBlocksFromTimestamps } from 'views/Info/hooks/useBlocksFromTimestamps'
-import { getPercentChange } from 'views/Info/utils/infoDataHelpers'
+// import { useBlocksFromTimestamps } from 'views/Info/hooks/useBlocksFromTimestamps'
+// import { getPercentChange } from 'views/Info/utils/infoDataHelpers'
 import { checkIsStableSwap, getMultiChainQueryEndPointWithStableSwap, MultiChainName } from '../../constant'
 import { useGetChainName } from '../../hooks'
 
@@ -74,16 +74,16 @@ const useFetchProtocolData = (): ProtocolFetchState => {
     error: false,
   })
   const [t24, t48] = getDeltaTimestamps()
-  const { blocks, error: blockError } = useBlocksFromTimestamps([t24, t48])
-  const [block24, block48] = blocks ?? []
+  // const { blocks, error: blockError } = useBlocksFromTimestamps([t24, t48])
+  // const [block24, block48] = blocks ?? []
   const chainName = useGetChainName()
 
   useEffect(() => {
     const fetchData = async () => {
       const [{ error, data }, { error: error24, data: data24 }, { error: error48, data: data48 }] = await Promise.all([
         getOverviewData(chainName),
-        getOverviewData(chainName, block24?.number ?? undefined),
-        getOverviewData(chainName, block48?.number ?? undefined),
+        getOverviewData(chainName, undefined),
+        getOverviewData(chainName, undefined),
       ])
       const anyError = error || error24 || error48
       const overviewData = formatPancakeFactoryResponse(data?.pancakeFactories)
@@ -100,33 +100,33 @@ const useFetchProtocolData = (): ProtocolFetchState => {
           overviewData24.totalVolumeUSD,
           overviewData48.totalVolumeUSD,
         )
-        const liquidityUSDChange = getPercentChange(overviewData.totalLiquidityUSD, overviewData24.totalLiquidityUSD)
+        // const liquidityUSDChange = getPercentChange(overviewData.totalLiquidityUSD, overviewData24.totalLiquidityUSD)
         // 24H transactions
         const [txCount, txCountChange] = getChangeForPeriod(
           overviewData.totalTransactions,
           overviewData24.totalTransactions,
           overviewData48.totalTransactions,
         )
-        const protocolData: ProtocolData = {
-          volumeUSD,
-          volumeUSDChange: typeof volumeUSDChange === 'number' ? volumeUSDChange : 0,
-          liquidityUSD: overviewData.totalLiquidityUSD,
-          liquidityUSDChange,
-          txCount,
-          txCountChange,
-        }
+        // const protocolData: ProtocolData = {
+        // volumeUSD,
+        // volumeUSDChange: typeof volumeUSDChange === 'number' ? volumeUSDChange : 0,
+        // liquidityUSD: overviewData.totalLiquidityUSD,
+        // liquidityUSDChange,
+        // txCount,
+        // txCountChange,
+        // }
         setFetchState({
           error: false,
-          data: protocolData,
+          // data: protocolData,
         })
       }
     }
 
-    const allBlocksAvailable = block24?.number && block48?.number
-    if (allBlocksAvailable && !blockError && !fetchState.data) {
-      fetchData()
-    }
-  }, [block24, block48, blockError, fetchState, chainName])
+    // const allBlocksAvailable = block24?.number && block48?.number
+    // if (allBlocksAvailable && !blockError && !fetchState.data) {
+    // fetchData()
+    // }
+  }, [fetchState, chainName])
 
   return fetchState
 }
@@ -152,22 +152,22 @@ export const fetchProtocolData = async (chainName: MultiChainName, block24: Bloc
     overviewData24.totalVolumeUSD,
     overviewData48.totalVolumeUSD,
   )
-  const liquidityUSDChange = getPercentChange(overviewData.totalLiquidityUSD, overviewData24.totalLiquidityUSD)
+  // const liquidityUSDChange = getPercentChange(overviewData.totalLiquidityUSD, overviewData24.totalLiquidityUSD)
   // 24H transactions
   const [txCount, txCountChange] = getChangeForPeriod(
     overviewData.totalTransactions,
     overviewData24.totalTransactions,
     overviewData48.totalTransactions,
   )
-  const protocolData: ProtocolData = {
-    volumeUSD,
-    volumeUSDChange: typeof volumeUSDChange === 'number' ? volumeUSDChange : 0,
-    liquidityUSD: overviewData.totalLiquidityUSD,
-    liquidityUSDChange,
-    txCount,
-    txCountChange,
-  }
-  return protocolData
+  // const protocolData: ProtocolData = {
+  //   volumeUSD,
+  //   volumeUSDChange: typeof volumeUSDChange === 'number' ? volumeUSDChange : 0,
+  //   liquidityUSD: overviewData.totalLiquidityUSD,
+  //   // liquidityUSDChange,
+  //   txCount,
+  // txCountChange,
+  // }
+  // return protocolData
 }
 
 export default useFetchProtocolData

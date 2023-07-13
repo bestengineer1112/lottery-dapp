@@ -2,7 +2,7 @@ import type { FarmConfigBaseProps, SerializedFarmConfig } from '@pancakeswap/far
 import { ChainId, Currency, Token, Trade, TradeType } from '@pancakeswap/sdk'
 import { TradeWithStableSwap } from '@pancakeswap/smart-router/evm'
 import BigNumber from 'bignumber.js'
-import { StableTrade } from 'views/Swap/StableSwap/hooks/useStableTradeExactIn'
+// import { StableTrade } from 'views/Swap/StableSwap/hooks/useStableTradeExactIn'
 // a list of tokens by chain
 export type ChainMap<T> = {
   readonly [chainId in ChainId]: T
@@ -13,11 +13,11 @@ export type ChainTokenList = ChainMap<Token[]>
 export type TranslatableText =
   | string
   | {
-      key: string
-      data?: {
-        [key: string]: string | number
-      }
+    key: string
+    data?: {
+      [key: string]: string | number
     }
+  }
 export interface Address {
   97?: string
   56: string
@@ -190,29 +190,29 @@ export enum FetchStatus {
   Failed = 'FAILED',
 }
 
-export const isV2SwapOrStableSwap = (trade: ITrade): trade is V2TradeAndStableSwap => {
-  return Boolean((trade as V2TradeAndStableSwap)?.maximumAmountIn)
-}
+// export const isV2SwapOrStableSwap = (trade: ITrade): trade is V2TradeAndStableSwap => {
+//   return Boolean((trade as V2TradeAndStableSwap)?.maximumAmountIn)
+// }
 
-export const isStableSwap = (trade: ITrade): trade is StableTrade => {
-  return (
-    Boolean((trade as StableTrade)?.maximumAmountIn) &&
-    !(trade as Trade<Currency, Currency, TradeType> | TradeWithStableSwap<Currency, Currency, TradeType>)?.route
-  )
-}
+// export const isStableSwap = (trade: ITrade): trade is StableTrade => {
+//   return (
+//     Boolean((trade as StableTrade)?.maximumAmountIn) &&
+//     !(trade as Trade<Currency, Currency, TradeType> | TradeWithStableSwap<Currency, Currency, TradeType>)?.route
+//   )
+// }
 
-export const isV2SwapOrMixSwap = (
-  trade: ITrade,
-): trade is Trade<Currency, Currency, TradeType> | TradeWithStableSwap<Currency, Currency, TradeType> => {
-  return Boolean(
-    (trade as Trade<Currency, Currency, TradeType> | TradeWithStableSwap<Currency, Currency, TradeType>)?.route,
-  )
-}
+// export const isV2SwapOrMixSwap = (
+//   trade: ITrade,
+// ): trade is Trade<Currency, Currency, TradeType> | TradeWithStableSwap<Currency, Currency, TradeType> => {
+//   return Boolean(
+//     (trade as Trade<Currency, Currency, TradeType> | TradeWithStableSwap<Currency, Currency, TradeType>)?.route,
+//   )
+// }
 
-export type ITrade =
-  | Trade<Currency, Currency, TradeType>
-  | StableTrade
-  | TradeWithStableSwap<Currency, Currency, TradeType>
-  | undefined
+// export type ITrade =
+//   | Trade<Currency, Currency, TradeType>
+//   | StableTrade
+//   | TradeWithStableSwap<Currency, Currency, TradeType>
+//   | undefined
 
-export type V2TradeAndStableSwap = Trade<Currency, Currency, TradeType> | StableTrade | undefined
+// export type V2TradeAndStableSwap = Trade<Currency, Currency, TradeType> | StableTrade | undefined
