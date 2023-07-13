@@ -7,6 +7,9 @@
   "plugins": [
     "lodash"
   ],
+  "extends": [
+    "plugin:react/jsx-runtime"
+  ],
   "rules": {
     "no-restricted-syntax": 0,
     "import/no-unresolved": 0,
@@ -73,8 +76,5 @@
     "no-nested-ternary": 0,
     "max-classes-per-file": 0
     // End temporary rules
-  },
-  "parserOptions": {
-    "sourceType": "module"
   }
 }
