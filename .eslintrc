@@ -7,9 +7,6 @@
   "plugins": [
     "lodash"
   ],
-  "extends": [
-    "plugin:react/jsx-runtime"
-  ],
   "rules": {
     "no-restricted-syntax": 0,
     "import/no-unresolved": 0,
