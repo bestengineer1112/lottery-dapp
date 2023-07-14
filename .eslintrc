@@ -71,10 +71,13 @@
     ],
     "react/require-default-props": 0,
     "no-nested-ternary": 0,
-    "max-classes-per-file": 0
+    "max-classes-per-file": 0,
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-page-custom-font": "off"
     // End temporary rules
   },
   "parserOptions": {
     "sourceType": "module"
-  }
+  },
+  "extends": "next",
 }
