@@ -79,5 +79,5 @@
   "parserOptions": {
     "sourceType": "module"
   },
-  "extends": "next",
+  "extends": "next"
 }
