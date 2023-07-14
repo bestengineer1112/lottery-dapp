@@ -58,8 +58,5 @@
   },
   "dependencies": {
     "next-seo": "^6.1.0"
-  },
-  "server": {
-    "port": 80
   }
 }
